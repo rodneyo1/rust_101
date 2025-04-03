@@ -3,9 +3,15 @@ pub fn initials(names: Vec<&str>) -> Vec<String> {
         .iter()
         .map(|name| {
             name.split_whitespace()
-                .filter_map(|word| word.chars().next())
-                .map(|c| format!("{c}."))
-                .collect::<Vec<_>>()
+                .map(|part| {
+                    let mut initial = String::new();
+                    if let Some(c) = part.chars().next() {
+                        initial.push(c);
+                        initial.push('.')
+                    }
+                    initial
+                })
+                .collect::<Vec<String>>()
                 .join(" ")
         })
         .collect()
