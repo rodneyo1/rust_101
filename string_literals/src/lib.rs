@@ -22,6 +22,6 @@ pub fn split_at(v: &str, index: usize) -> (&str, &str) {
 pub fn find(v: &str, pat: char) -> usize {
     match v.find(pat) {
         Some(index) => index,
-        None => v.len(),
+        _ => v.len(),
     }
 }
