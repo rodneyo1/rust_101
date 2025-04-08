@@ -1,6 +1,9 @@
 pub fn capitalize_first(input: &str) -> String {
     let mut chars = input.chars();
-    match chars.next() {
+    match chars.next() { // Get the first character
+        // If the string is empty, return an empty string
+        // If the first character is not a letter, return the string as is
+        // If the first character is a letter, capitalize it and return the string
         None => String::new(),
         Some(first) => {
             let mut result = String::new();
