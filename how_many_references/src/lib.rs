@@ -18,7 +18,7 @@ impl Node {
     // Remove all references that point to the exact same Rc (not just equal content)
     pub fn rm_all_ref(&mut self, element: Rc<String>) {
         self.ref_list
-            .retain(|x| !Rc::ptr_eq(x, &element)); // keep only those that do not point to the same allocation
+            .retain(|x| !Rc::ptr_eq(x, &element));
     }
 }
 
