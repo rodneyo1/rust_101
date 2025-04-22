@@ -1,6 +1,6 @@
 // Define a public struct called Person with a lifetime parameter 'a
 // This tells Rust that the Person struct can't outlive the string it references
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Person<'a> {
     pub name: &'a str,  // &'a str is a string slice with lifetime 'a
     pub age: u8,       // u8 is appropriate for age as it's typically 0-120
