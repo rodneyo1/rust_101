@@ -30,32 +30,32 @@ impl Cart {
     }
 
     pub fn generate_receipt(&mut self) -> Vec<f32> {
-        let mut prices: Vec<f32> = self.items.iter().map(|(_, price)| *price).collect();
-        let mut final_receipt = Vec::new();
-
-        prices.sort_by(|a, b| a.partial_cmp(b).unwrap());
-
+        let mut result = Vec::new();
+        let prices: Vec<f32> = self.items.iter().map(|(_, p)| *p).collect();
         let mut i = 0;
+
         while i + 2 < prices.len() {
-            let group = &mut prices[i..i + 3].to_vec();
-            let min_price = *group.iter().min_by(|a, b| a.partial_cmp(b).unwrap()).unwrap();
+            let group = &prices[i..i + 3];
             let total: f32 = group.iter().sum();
+            let min_price = group.iter().cloned().fold(f32::INFINITY, f32::min);
             let discount_ratio = min_price / total;
-            let discounted: Vec<f32> = group
+
+            let mut discounted_group: Vec<f32> = group
                 .iter()
-                .map(|p| ((p - (p * discount_ratio)) * 100.0).round() / 100.0)
+                .map(|p| ((p - p * discount_ratio) * 100.0).round() / 100.0)
                 .collect();
-            final_receipt.extend(discounted);
+
+            result.append(&mut discounted_group);
             i += 3;
         }
 
-        // Remaining items that don't form a group of 3
-        for j in i..prices.len() {
-            final_receipt.push(((prices[j]) * 100.0).round() / 100.0);
+        // Append remaining items (less than 3) with no discount
+        for &p in &prices[i..] {
+            result.push((p * 100.0).round() / 100.0);
         }
 
-        final_receipt.sort_by(|a, b| a.partial_cmp(b).unwrap());
-        self.receipt = final_receipt.clone();
-        final_receipt
+        result.sort_by(|a, b| a.partial_cmp(b).unwrap());
+        self.receipt = result.clone();
+        result
     }
 }
