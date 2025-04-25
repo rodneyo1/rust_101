@@ -1,27 +1,20 @@
 pub fn get_products(arr: Vec<usize>) -> Vec<usize> {
-    let n = arr.len();
-    if n == 0 {
-        return Vec::new();
+    let mut counter: usize = 0;
+    let mut product_results: Vec<usize> = Vec::new();
+
+    if arr.len() < 2 {
+        return product_results;
+    };
+
+    for _ in arr.iter() {
+        let mut prod: usize = 1;
+        let mut others: Vec<usize> = arr.clone();
+        others.remove(counter);
+        for x in others.iter() {
+            prod *= *x;
+        }
+        product_results.push(prod);
+        counter += 1;
     }
-
-    let mut prefix = vec![1; n];
-    let mut suffix = vec![1; n];
-    let mut result = vec![1; n];
-
-    // Compute prefix products
-    for i in 1..n {
-        prefix[i] = prefix[i - 1] * arr[i - 1];
-    }
-
-    // Compute suffix products
-    for i in (0..n - 1).rev() {
-        suffix[i] = suffix[i + 1] * arr[i + 1];
-    }
-
-    // Compute result
-    for i in 0..n {
-        result[i] = prefix[i] * suffix[i];
-    }
-
-    result
+    return product_results;
 }
