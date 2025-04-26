@@ -1,4 +1,4 @@
-use roman_numbers_iterator::RomanNumber;
+use roman_numbers_iter::RomanNumber;
 
 fn main() {
 	let mut number = RomanNumber::from(15);
